@@ -21,6 +21,19 @@ module.exports = {
 		})
 	},
 
+	getByDate: function(date, completion){
+		console.log(date);
+		TourPackage.query(date.start_date).eq(date).exec(function (err, dogs){
+			if (err){
+				completion(err, null)
+				return;
+			}
+			console.log(results[0].info.quick_info);
+			completion(null, results)
+			return
+		})
+	},
+
 	getById: function(id, completion){
 		TourPackage.get({id: id}, function(err, result){
 			if (err){

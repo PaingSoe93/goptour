@@ -76,6 +76,39 @@ router.get('/:resource/:id', function(req, res, next) {
 
 });
 
+router.get('/:resource/date', function(req, res, next) {
+	var resource = req.params.resource
+
+  var controller = controllers[resource]
+	if (controller == null){
+		res.json({
+			confirmation: 'fail',
+			message: 'Invalid Request Link'
+
+		})
+
+		return
+	}
+  var today = "1/20/2017";
+	controller.getByDate(today, function(err, result){
+		if (err){
+			res.json({
+				confirmation:'fail',
+				message: 'Not Found'
+			})
+			return;
+		}
+
+		res.json({
+			confirmation:'success',
+			results: result
+		})
+
+		return
+	});
+
+});
+
 router.post('/:resource', (req, res, next) => {
 
   var resource = req.params.resource

@@ -9,13 +9,31 @@ dynamoose.AWS.config.update({
 var TourPackageSchema = new dynamoose.Schema({
   id: {type: String, hashKey: true},
   title: {type: String, index: {global: true} },
-  info: Object,
+  info: {
+    quick_info: {
+      duration: String,
+      currency: String,
+      price: Number,
+      car_type: String,
+      hotel_type: String,
+      route: String
+    },
+    detail_info: {
+      intro: String,
+      trip_plan: [String],
+      services: [String]
+    }
+  },
   company: Object,
-  image_url : {type: [String] },
+  image_url : [String],
   categories : [String],
-  state: Object,
+  state: [String],
   place: [String],
-  date: [Object],
+  date: [{
+    start_date: {type: Date, index: true},
+    end_date: Date,
+    is_expired: Boolean
+  }],
   type: {type: String, index: {global: true} },
   priority: {type: Number, default: 21 },
   is_special: {type: Boolean, default: true },
