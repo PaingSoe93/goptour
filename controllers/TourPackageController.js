@@ -71,8 +71,14 @@ module.exports = {
 		});
 	},
 
-	put: function(id, completion){
-
+	put: function(id, params, completion){
+		TourPackage.update({id: id}, params, function(err, result){
+			console.log(result);
+			if (err) {
+				return completion(err, null);
+			}
+			completion(null, result);
+		});
 	},
 
 	delete: function(id, completion){

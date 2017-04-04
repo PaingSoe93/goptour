@@ -140,6 +140,37 @@ router.post('/:resource', (req, res, next) => {
   })
 });
 
+router.put('/:resource/:id', (req, res, next) => {
+	var resource = req.params.resource;
+	var id = req.params.id;
+
+	var controller = controllers[resource]
+	if (controller == null){
+		res.json({
+			confirmation: 'fail',
+			message: 'Invalid Resource'
+
+		})
+
+		return
+	}
+	controller.put(id, req, function(err, result){
+		if(err){
+      res.json({
+        confirmation: 'fail',
+        message : err
+      })
+      return
+    }
+
+    res.json({
+      confirmation: 'success',
+      results: result
+    })
+    return
+	})
+});
+
 router.delete('/:resource/:id', (req, res, next) => {
 	var resource = req.params.resource;
 	var id = req.params.id;
