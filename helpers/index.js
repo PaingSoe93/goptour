@@ -7,6 +7,7 @@ aws.config.update({
   region: "ap-southeast-1",
 });
 
+var dynamodb = new aws.DynamoDB();
 var s3 = new aws.S3();
 
 let randomHex = () => {
@@ -26,7 +27,22 @@ let s3Upload = params => {
 	});
 }
 
+//find Items
+let findPackages = params => {
+	return new Promise((resolve, reject) => {
+    var docClient = new aws.DynamoDB.DocumentClient();
+		docClient.query(params, (err, data) => {
+		  if (err) {
+					reject(err);
+		    } else {
+					resolve(data);
+		    }
+			});
+	});
+}
+
 module.exports = {
   randomHex,
-	s3Upload
+	s3Upload,
+  findPackages
 }

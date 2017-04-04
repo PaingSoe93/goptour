@@ -1,21 +1,36 @@
 'use strict'
 
 const TourPackage = require('../models/TourPackage');
+const h = require('../helpers');
 
 module.exports = {
 
 	get: function(params, completion){
-    var key = Object.keys(params)[0];
+  //   var type = params.type;
+	// 	var params = {
+  //     TableName : "TourPackages",
+  //     ProjectionExpression: "id, title, priority, is_special, is_avaliable",
+  //     KeyConditionExpression: "#type = :type",
+  //     ExpressionAttributeNames:{
+  //         "#type": "type"
+  //     },
+  //     ExpressionAttributeValues: {
+  //         ":type": type
+  //     }
+  // };
+  // h.findPackages(params)
+  //   .then(data => console.log(data))
+  //   .catch(err => console.log("Error in Searching " + err));
+	  var key = Object.keys(params)[0];
     var myString = params[key]
     if(myString === "true"){
       myString = Boolean(myString)
     }
-		TourPackage.query(key).eq(myString).attributes(['id', 'title', 'image_url', 'type', 'info' , 'priority', 'is_special', 'is_avaliable']).exec(function(err, results){
+		TourPackage.query(key).eq(myString).attributes(['id', 'title', 'date', 'image_url', 'type', 'info' , 'priority', 'is_special', 'is_avaliable']).exec(function(err, results){
 			if (err){
 				completion(err, null)
 				return;
 			}
-			console.log(results[0].info.quick_info);
 			completion(null, results)
 			return
 		})
@@ -54,6 +69,10 @@ module.exports = {
 
 			completion(null, result)
 		});
+	},
+
+	put: function(id, completion){
+
 	}
 
 }
