@@ -73,6 +73,15 @@ module.exports = {
 
 	put: function(id, completion){
 
-	}
+	},
 
+	delete: function(id, completion){
+		TourPackage.delete({id: id}, function(err) {
+			if (err) {
+				completion(err, null)
+				return;
+			}
+			completion(null, "Delete Success!");
+		});
+	}
 }
