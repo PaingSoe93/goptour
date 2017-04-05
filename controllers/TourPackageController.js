@@ -72,8 +72,8 @@ module.exports = {
 	},
 
 	put: function(id, params, completion){
-		TourPackage.update({id: id}, params, function(err, result){
-			console.log(result);
+		console.log(params.body);
+		TourPackage.update({id: id},{$PUT: params.body}, function(err, result){
 			if (err) {
 				return completion(err, null);
 			}
