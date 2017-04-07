@@ -27,22 +27,7 @@ let s3Upload = params => {
 	});
 }
 
-//find Items
-let findPackages = params => {
-	return new Promise((resolve, reject) => {
-    var docClient = new aws.DynamoDB.DocumentClient();
-		docClient.query(params, (err, data) => {
-		  if (err) {
-					reject(err);
-		    } else {
-					resolve(data);
-		    }
-			});
-	});
-}
-
 module.exports = {
   randomHex,
-	s3Upload,
-  findPackages
+	s3Upload
 }

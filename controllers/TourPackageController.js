@@ -1,26 +1,10 @@
 'use strict'
 
 const TourPackage = require('../models/TourPackage');
-const h = require('../helpers');
 
 module.exports = {
 
 	get: function(params, completion){
-  //   var type = params.type;
-	// 	var params = {
-  //     TableName : "TourPackages",
-  //     ProjectionExpression: "id, title, priority, is_special, is_avaliable",
-  //     KeyConditionExpression: "#type = :type",
-  //     ExpressionAttributeNames:{
-  //         "#type": "type"
-  //     },
-  //     ExpressionAttributeValues: {
-  //         ":type": type
-  //     }
-  // };
-  // h.findPackages(params)
-  //   .then(data => console.log(data))
-  //   .catch(err => console.log("Error in Searching " + err));
 	  var key = Object.keys(params)[0];
     var myString = params[key]
     if(myString === "true"){
@@ -36,16 +20,34 @@ module.exports = {
 		})
 	},
 
-	getByDate: function(date, completion){
-		console.log(date);
-		TourPackage.query(date.start_date).eq(date).exec(function (err, dogs){
+	getByDate: function(completion){
+		TourPackage.scan().exec(function (err, results){
 			if (err){
 				completion(err, null)
 				return;
 			}
-			console.log(results[0].info.quick_info);
-			completion(null, results)
-			return
+
+			var today = new Date();
+			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			var plusD = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+7);
+			console.log(date + " ha ha " + plusD);
+			for(var i = 0 ; i<(results.length) ; i++){
+				for (var ii in results[i].date){
+					var sd = new Date(results[i].date[ii].start_date);
+					var start = sd.getFullYear()+'-'+(sd.getMonth()+1)+'-'+sd.getDate();
+					if (date<=start && start<=plusD){
+						console.log(true);
+					}else {
+						console.log(false);
+					}
+				}
+			}
+			// for (var i in results) {
+			//
+			// 	for (var ii in results[i].date){
+			// 		console.log(results[i].date[ii]);
+			// 	}
+			// }
 		})
 	},
 

@@ -10,6 +10,25 @@ var controllers = {
   image: ImagesUploadController
 }
 
+router.get('/day', (req, res, next) => {
+	TourPackageController.getByDate(function(err, result){
+			if (err){
+				res.json({
+					confirmation:'fail',
+					message: 'Not Found'
+				})
+				return;
+			}
+
+			res.json({
+				confirmation:'success',
+				results: result
+			})
+
+			return
+		});
+});
+
 router.get('/:resource', (req, res, next) => {
   var resource = req.params.resource;
   var controller = controllers[resource]
@@ -17,7 +36,6 @@ router.get('/:resource', (req, res, next) => {
 		res.json({
 			confirmation: 'fail',
 			message: 'Invalid Request Link'
-
 		})
 
 		return
@@ -76,36 +94,38 @@ router.get('/:resource/:id', function(req, res, next) {
 
 });
 
-router.get('/:resource/date', function(req, res, next) {
-	var resource = req.params.resource
-
-  var controller = controllers[resource]
-	if (controller == null){
-		res.json({
-			confirmation: 'fail',
-			message: 'Invalid Request Link'
-
-		})
-
-		return
-	}
-  var today = "1/20/2017";
-	controller.getByDate(today, function(err, result){
-		if (err){
-			res.json({
-				confirmation:'fail',
-				message: 'Not Found'
-			})
-			return;
-		}
-
-		res.json({
-			confirmation:'success',
-			results: result
-		})
-
-		return
-	});
+router.get('/package/he', function(req, res, next) {
+	// var resource = req.params.resource
+	//
+  // var controller = controllers[resource]
+	// if (controller == null){
+	// 	res.json({
+	// 		confirmation: 'fail',
+	// 		message: 'Invalid Request Link'
+	//
+	// 	})
+	//
+	// 	return
+	// }
+	res.json("Hello");
+	console.log("hi");
+  // var today = "4/15/2017";
+	// TourPackageController.getByDate(today, function(err, result){
+	// 	if (err){
+	// 		res.json({
+	// 			confirmation:'fail',
+	// 			message: 'Not Found'
+	// 		})
+	// 		return;
+	// 	}
+	//
+	// 	res.json({
+	// 		confirmation:'success',
+	// 		results: result
+	// 	})
+	//
+	// 	return
+	// });
 
 });
 
