@@ -10,7 +10,7 @@ var controllers = {
   image: ImagesUploadController
 }
 
-router.get('/day', (req, res, next) => {
+router.get('/package/upcoming', (req, res, next) => {
 	TourPackageController.getByDate(function(err, result){
 			if (err){
 				res.json({
