@@ -4,10 +4,12 @@ var router = express.Router();
 const TourCompanyController = require('../controllers/TourCompanyController');
 const TourPackageController = require('../controllers/TourPackageController');
 const ImagesUploadController = require('../controllers/ImagesUploadController');
+const BookingController = require('../controllers/BookingController');
 var controllers = {
 	company: TourCompanyController,
 	package: TourPackageController,
-  image: ImagesUploadController
+  image: ImagesUploadController,
+	booking: BookingController
 }
 
 router.get('/package/upcoming', (req, res, next) => {
@@ -91,41 +93,6 @@ router.get('/:resource/:id', function(req, res, next) {
 
 		return
 	});
-
-});
-
-router.get('/package/he', function(req, res, next) {
-	// var resource = req.params.resource
-	//
-  // var controller = controllers[resource]
-	// if (controller == null){
-	// 	res.json({
-	// 		confirmation: 'fail',
-	// 		message: 'Invalid Request Link'
-	//
-	// 	})
-	//
-	// 	return
-	// }
-	res.json("Hello");
-	console.log("hi");
-  // var today = "4/15/2017";
-	// TourPackageController.getByDate(today, function(err, result){
-	// 	if (err){
-	// 		res.json({
-	// 			confirmation:'fail',
-	// 			message: 'Not Found'
-	// 		})
-	// 		return;
-	// 	}
-	//
-	// 	res.json({
-	// 		confirmation:'success',
-	// 		results: result
-	// 	})
-	//
-	// 	return
-	// });
 
 });
 
