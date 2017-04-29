@@ -5,11 +5,13 @@ const TourCompanyController = require('../controllers/TourCompanyController');
 const TourPackageController = require('../controllers/TourPackageController');
 const ImagesUploadController = require('../controllers/ImagesUploadController');
 const BookingController = require('../controllers/BookingController');
+const PlaceController = require('../controllers/PlaceController');
 var controllers = {
 	company: TourCompanyController,
 	package: TourPackageController,
   image: ImagesUploadController,
-	booking: BookingController
+	booking: BookingController,
+	place: PlaceController
 }
 
 router.get('/package/upcoming', (req, res, next) => {

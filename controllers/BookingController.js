@@ -32,7 +32,6 @@ module.exports = {
   },
 
   put: function(id, params, completion){
-		console.log(params.body);
 		Booking.update({id: id},{$PUT: params.body}, function(err, result){
 			if (err) {
 				return completion(err, null);
