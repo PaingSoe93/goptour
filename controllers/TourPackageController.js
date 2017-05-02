@@ -7,17 +7,21 @@ module.exports = {
 	get: function(params, completion){
 	  var key = Object.keys(params)[0];
     var myString = params[key]
-    if(myString === "true"){
-      myString = Boolean(myString)
-    }
-		TourPackage.query(key).eq(myString).attributes(['id', 'title', 'date', 'image_url', 'type', 'info' , 'priority', 'is_special', 'is_avaliable']).ascending('createdAt').exec(function(err, results){
-			if (err){
-				completion(err, null)
-				return;
-			}
-			completion(null, results)
-			return
-		})
+    if(key === "place"){
+			TourPackage.scan({	place: {contains: [myString]} }).exec(function(err, results){
+				if(err) return completion(err, null);
+				completion(null, results);
+			});
+    }else{
+			TourPackage.query(key).eq(myString).attributes(['id', 'title', 'date', 'image_url', 'type', 'info' , 'priority', 'is_special', 'is_avaliable']).ascending('createdAt').exec(function(err, results){
+				if (err){
+					completion(err, null)
+					return;
+				}
+				completion(null, results)
+				return
+			});
+		}
 	},
 
 	getByDate: function(completion){
@@ -41,13 +45,6 @@ module.exports = {
 			}
 			completion(null, filterResults);
 		})
-	},
-
-	searchByplace: function(place, completion){
-		TourPackage.scan({	place: {contains: [place]} }).exec(function(err, results){
-			if(err) return completion(err, null);
-			completion(null, results);
-		});
 	},
 
 	getById: function(id, completion){
