@@ -1,50 +1,32 @@
 'use strict';
 
-const Place = require('../models/Place');
+const TourPackage = require('../models/TourPackage');
+
+const _ = require('underscore-node');
 
 module.exports = {
   get: function(params, completion){
-    Place.scan().exec(function(err, results) {
+    var places = [];
+    TourPackage.scan().attributes(['place']).exec(function(err, results) {
       if(err) return completion(err, null);
       if(results.lastKey){
-        Place.scan().startAt(results.lastKey).ascending('createdAt').exec(function(err, places){
+        TourPackage.scan().attributes(['place']).startAt(results.lastKey).exec(function(err, places){
           if(err) return completion(err, null);
           results.push(places);
-          completion(null, results);
+          for(var i=0; i< results.length; i++){
+            for (var ii in results[i].place){
+              places.push(results[i].place[ii]);
+            }
+          }
+          return completion(null, _.uniq(places));
         });
-      }else {
-        completion(null, results);
       }
+      for(var i=0; i< results.length; i++){
+        for (var ii in results[i].place){
+          places.push(results[i].place[ii]);
+        }
+      }
+      completion(null, _.uniq(places));
     })
-  },
-
-  post: function(params, completion){
-    Place.create(params.body, function(err, result){
-			if (err){
-				completion(err, null)
-				return;
-			}
-
-			completion(null, result)
-		});
-  },
-
-  put: function(id, params, completion){
-		Place.update({id: id},{$PUT: params.body}, function(err, result){
-			if (err) {
-				return completion(err, null);
-			}
-			completion(null, result);
-		});
-	},
-
-  delete: function(id, completion){
-		Place.delete({id: id}, function(err) {
-			if (err) {
-				completion(err, null)
-				return;
-			}
-			completion(null, "Delete Success!");
-		});
   }
 }
