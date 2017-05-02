@@ -1,6 +1,7 @@
 'use strict'
 
 const TourPackage = require('../models/TourPackage');
+const _ = require('underscore-node');
 
 module.exports = {
 
@@ -43,7 +44,7 @@ module.exports = {
 					}
 				}
 			}
-			completion(null, filterResults);
+			completion(null, _.uniq(filterResults));
 		})
 	},
 
