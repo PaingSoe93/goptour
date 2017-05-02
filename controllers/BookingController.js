@@ -4,12 +4,27 @@ const Booking = require('../models/Booking');
 
 module.exports = {
   get: function(params, completion){
-    var key = Object.keys(params)[0];
-    var myString = params[key]
-    Booking.query(key).eq(myString).exec(function(err, results){
-      if(err) return completion(err, null);
-      return completion(null, results);
-    });
+    if(Object.keys(params).length === 0){
+      Booking.scan().ascending('createdAt').exec(function(err, results){
+        if(err) return completion(err, null);
+        if(results.lastKey){
+          Booking.scan().startAt(results.lastKey).ascending('createdAt').exec(function(err, bookings){
+            if(err) return completion(err, null);
+            results.push(bookings);
+            return completion(null, results);
+          });
+        }else {
+          return completion(null, results);
+        }
+      });
+    }else{
+      var key = Object.keys(params)[0];
+      var myString = params[key]
+      Booking.query(key).eq(myString).ascending('createdAt').exec(function(err, results){
+        if(err) return completion(err, null);
+        return completion(null, results);
+      });
+    }
   },
 
   getById: function(id, completion){

@@ -10,7 +10,7 @@ module.exports = {
     if(myString === "true"){
       myString = Boolean(myString)
     }
-		TourPackage.query(key).eq(myString).attributes(['id', 'title', 'date', 'image_url', 'type', 'info' , 'priority', 'is_special', 'is_avaliable']).exec(function(err, results){
+		TourPackage.query(key).eq(myString).attributes(['id', 'title', 'date', 'image_url', 'type', 'info' , 'priority', 'is_special', 'is_avaliable']).ascending('createdAt').exec(function(err, results){
 			if (err){
 				completion(err, null)
 				return;
@@ -41,6 +41,13 @@ module.exports = {
 			}
 			completion(null, filterResults);
 		})
+	},
+
+	searchByplace: function(place, completion){
+		TourPackage.scan({	place: {contains: [place]} }).exec(function(err, results){
+			if(err) return completion(err, null);
+			completion(null, results);
+		});
 	},
 
 	getById: function(id, completion){
@@ -77,6 +84,7 @@ module.exports = {
 
 	delete: function(id, completion){
 		TourPackage.delete({id: id}, function(err) {
+			console.log(err);
 			if (err) {
 				completion(err, null)
 				return;

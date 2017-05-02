@@ -6,7 +6,7 @@ const TourCompany = require('../models/TourCompany');
 module.exports = {
 
 	get: function(params, completion){
-		TourCompany.scan().exec(function(err, results){
+		TourCompany.scan().ascending('createdAt').exec(function(err, results){
       //console.log(results.lastKey);
 			if (err){
 				completion(err, null)

@@ -33,6 +33,26 @@ router.get('/package/upcoming', (req, res, next) => {
 		});
 });
 
+router.get('/package/:place', (req, res, next) => {
+	var place = req.params.place;
+	TourPackageController.searchByplace(place, function(err, result){
+		if (err){
+			res.json({
+				confirmation:'fail',
+				message: 'Not Found'
+			})
+			return;
+		}
+
+		res.json({
+			confirmation:'success',
+			results: result
+		})
+
+		return
+	});
+});
+
 router.get('/:resource', (req, res, next) => {
   var resource = req.params.resource;
   var controller = controllers[resource]

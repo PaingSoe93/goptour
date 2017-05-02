@@ -7,7 +7,7 @@ module.exports = {
     Place.scan().exec(function(err, results) {
       if(err) return completion(err, null);
       if(results.lastKey){
-        Place.scan().startAt(results.lastKey).exec(function(err, places){
+        Place.scan().startAt(results.lastKey).ascending('createdAt').exec(function(err, places){
           if(err) return completion(err, null);
           results.push(places);
           completion(null, results);

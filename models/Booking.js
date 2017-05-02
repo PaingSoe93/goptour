@@ -12,10 +12,11 @@ var BookingSchema = new dynamoose.Schema({
   phone_number : [String],
   fb_link : String,
   user_source : {type: String, default: 'Facebook'},
-  package : String,
+  packageId : String,
   company : String,
   price_amount: Number,
   quantity: Number,
+  message : String,
   booking_status: {type: String, defaulf: 'pending', index: {global: true}},
   call_log: [{
     remark : {type: String, default: ''},
@@ -35,11 +36,12 @@ module.exports = dynamoose.model('Booking', BookingSchema);
 	"phone_number": ["095099782"],
 	"fb_link": "www.facebook.com/mmpitech",
 	"user_source" : "Facebook",
-	"package": "abc123",
+	"packageId": "abc123",
 	"company": "a23",
 	"price_amount": 120000,
 	"quantity": 4,
 	"booking_status": "pending",
+  "message" : "This is test message",
   "call_log": [{
     "remark": "Enquery",
     "time" : 1491542016650
