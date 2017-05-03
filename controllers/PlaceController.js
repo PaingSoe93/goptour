@@ -18,7 +18,7 @@ module.exports = {
               places.push(results[i].place[ii]);
             }
           }
-          return completion(null, _.uniq(places));
+          return completion(null, _.uniq(places, true));
         });
       }
       for(var i=0; i< results.length; i++){

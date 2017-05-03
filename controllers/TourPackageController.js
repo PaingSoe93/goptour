@@ -2,6 +2,7 @@
 
 const TourPackage = require('../models/TourPackage');
 const _ = require('underscore-node');
+require('datejs');
 
 module.exports = {
 
@@ -26,26 +27,24 @@ module.exports = {
 	},
 
 	getByDate: function(completion){
+		var filterResults = [];
+		var today = Date.today();
+		var nextWeek = Date.today().addDays(7);
 		TourPackage.scan().exec(function (err, results){
 			if (err){
 				completion(err, null)
 				return;
 			}
-			var filterResults = [];
-			var today = new Date();
-			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-			var plusD = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate()+7);
 			for(var i = 0 ; i<(results.length) ; i++){
 				for (var ii in results[i].date){
-					var sd = new Date(results[i].date[ii].start_date);
-					var start = sd.getFullYear()+'-'+(sd.getMonth()+1)+'-'+sd.getDate();
-					if (date<=start && start<=plusD){
+					var startDate = new Date(results[i].date[ii].start_date);
+					if(startDate.between(today, nextWeek)){
 						filterResults.push(results[i]);
 					}
 				}
 			}
 			completion(null, _.uniq(filterResults));
-		})
+		});
 	},
 
 	getById: function(id, completion){
